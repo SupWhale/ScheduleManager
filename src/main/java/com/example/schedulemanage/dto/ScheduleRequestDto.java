@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class ScheduleRequestDto {
 
-    private String id;
+    private Long id;
     private String userId;
     private String schedule_name;
     private String schedule_content;

@@ -8,15 +8,15 @@ import java.util.List;
 
 public interface ScheduleService {
 
-    ScheduleResponseDto save(ScheduleRequestDto scheduleRequestDto);
+    ScheduleResponseDto saveSchedule(ScheduleRequestDto scheduleRequestDto);
 
     List<ScheduleResponseDto> findAllSchedules();
 
-    ScheduleResponseDto findScheduleById(Schedule id);
+    ScheduleResponseDto findScheduleById(Long id);
 
-    ScheduleResponseDto updateSchedule(Schedule result);
+    ScheduleResponseDto updateSchedule(Long id, ScheduleRequestDto requestDto);
 
-    void deleteSchedule(Schedule result);
+    ScheduleResponseDto deleteSchedule(Long id, ScheduleRequestDto requestDto);
 
 
 }
