@@ -18,4 +18,5 @@ public interface ScheduleRepository {
 
     int deleteSchedule(Long id);
 
+    List<ScheduleResponseDto> findPagingSchedule(int pageno, int pagesize);
 }

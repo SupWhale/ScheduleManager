@@ -41,6 +41,11 @@ public class ScheduleServiceImpl implements ScheduleService{
     }
 
     @Override
+    public List<ScheduleResponseDto> findPageSchedules(int pageno, int pagesize) {
+        return scheduleRepository.findPagingSchedule(pageno, pagesize);
+    }
+
+    @Override
     public ScheduleResponseDto findScheduleById(Long id) {
         Optional<Schedule> result = scheduleRepository.findScheduleById(id);
 
@@ -54,30 +59,28 @@ public class ScheduleServiceImpl implements ScheduleService{
 
     @Override
     public ScheduleResponseDto updateSchedule(Long id, ScheduleRequestDto requestDto) {
-        Optional<Schedule> result = scheduleRepository.findScheduleById(id);
+        Optional<Schedule> updateTargetInfo = scheduleRepository.findScheduleById(id);
 
-        if(requestDto.getSchedule_pw().equals(result.get().getSchedule_pw())){
+        if(requestDto.getSchedule_pw().equals(updateTargetInfo.get().getSchedule_pw())){
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Wrong password");
         }
 
-        Schedule result2 = new Schedule();
-        result2.setId(id);
-        result2.setSchedule_name(requestDto.getSchedule_name());
-        result2.setSchedule_content(requestDto.getSchedule_content());
+        Schedule updateTargetSchedule = new Schedule();
+        updateTargetSchedule.setId(id);
+        updateTargetSchedule.setSchedule_name(requestDto.getSchedule_name());
+        updateTargetSchedule.setSchedule_content(requestDto.getSchedule_content());
 
         // NPE 방지
-        if (result2.getId() == null) {
+        if (updateTargetSchedule.getId() == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id);
         }
 
         // 필수값 검증
-        if (result2.getSchedule_name() == null || result2.getSchedule_content() == null) {
+        if (updateTargetSchedule.getSchedule_name() == null || updateTargetSchedule.getSchedule_content() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The title and content are required values.");
         }
 
-        int updatedRow = scheduleRepository.updateSchedule(result2);
-
-        //ScheduleResponseDto returmi = scheduleRepository.findScheduleById(id);
+        int updatedRow = scheduleRepository.updateSchedule(updateTargetSchedule);
 
         return findScheduleById(id);
     }

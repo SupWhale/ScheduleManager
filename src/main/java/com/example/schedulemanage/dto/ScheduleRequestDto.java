@@ -12,5 +12,7 @@ public class ScheduleRequestDto {
     private String schedule_pw;
     private String schedule_st_date;
     private String schedule_ed_date;
+    private int pageNo;
+    private int pageSize;
 
 }

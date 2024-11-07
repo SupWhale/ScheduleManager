@@ -103,8 +103,8 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
     @Transactional
     @Override
     public int updateSchedule(Schedule schedule){
-        String sql = "update schedule set schedule_name=?, schedule_content=? where id=?";
-       return jdbcTemplate.update(sql, schedule.getSchedule_name(), schedule.getSchedule_content(), schedule.getId());
+        String sql = "update schedule set schedule_name=?, schedule_content=?, userNm=? where id=?";
+       return jdbcTemplate.update(sql, schedule.getSchedule_name(), schedule.getSchedule_content(), schedule.getUserNm(), schedule.getId());
     }
 
     @Override
@@ -112,5 +112,15 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
         return jdbcTemplate.update("delete from schedule where id=?", id);
     }
 
+    public List<ScheduleResponseDto> findPagingSchedule(int pageno, int pagesize){
+        return jdbcTemplate.query("SELECT * \n" +
+                "FROM \n" +
+                "(\n" +
+                "  SELECT ROW_NUMBER() OVER(ORDER BY A.id ASC) AS ROWNUM,\n" +
+                "  A.*\n" +
+                "  FROM schedulemanage.schedule A\n" +
+                ")B\n" +
+                "WHERE B.ROWNUM BETWEEN "+ pageno +" AND "+ pagesize, scheduleRowMapper());
+    }
 
 }

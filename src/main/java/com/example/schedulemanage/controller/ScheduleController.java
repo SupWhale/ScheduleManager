@@ -32,17 +32,24 @@ public class ScheduleController {
         return scheduleService.findAllSchedules();
     }
 
+    @GetMapping("/page") // 요청
+    public List<ScheduleResponseDto> SelectPageSchedule(@RequestBody ScheduleRequestDto requestDto) {
+        // ServiceLayer 호출 및 응답
+        return scheduleService.findPageSchedules(requestDto.getPageNo(), requestDto.getPageSize());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ScheduleResponseDto> findScheduleById(@PathVariable Long id) {
         return new ResponseEntity<>(scheduleService.findScheduleById(id), HttpStatus.OK);
     }
+
 
     @PatchMapping("/{id}")
     public ResponseEntity<ScheduleResponseDto> updatedSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto requestDto) {
         return new ResponseEntity<>(scheduleService.updateSchedule(id, requestDto), HttpStatus.OK);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<ScheduleResponseDto> deleteMemo(@PathVariable Long id, @RequestBody ScheduleRequestDto requestDto) {
+    public ResponseEntity<ScheduleResponseDto> deleteSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto requestDto) {
         // 성공한 경우
         return new ResponseEntity<>(scheduleService.deleteSchedule(id, requestDto),HttpStatus.OK);
     }
