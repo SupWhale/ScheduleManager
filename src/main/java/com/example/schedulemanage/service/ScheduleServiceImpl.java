@@ -3,6 +3,7 @@ package com.example.schedulemanage.service;
 import com.example.schedulemanage.dto.ScheduleRequestDto;
 import com.example.schedulemanage.dto.ScheduleResponseDto;
 import com.example.schedulemanage.entity.Schedule;
+import com.example.schedulemanage.entity.User;
 import com.example.schedulemanage.repository.ScheduleRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.StreamingHttpOutputMessage;
@@ -27,6 +28,7 @@ public class ScheduleServiceImpl implements ScheduleService{
     public ScheduleResponseDto saveSchedule(ScheduleRequestDto scheduleRequestDto) {
         Schedule result = new Schedule();
         result.setUserId(scheduleRequestDto.getUserId());
+        result.setUserNm(scheduleRequestDto.getUserNm());
         result.setSchedule_name(scheduleRequestDto.getSchedule_name());
         result.setSchedule_content(scheduleRequestDto.getSchedule_content());
         result.setSchedule_pw(scheduleRequestDto.getSchedule_pw());
@@ -55,6 +57,18 @@ public class ScheduleServiceImpl implements ScheduleService{
         }
 
         return new ScheduleResponseDto(result.get());
+    }
+
+    @Override
+    public User findUserById(Long id) {
+        Optional<User> result = scheduleRepository.findUserById(id);
+
+        // NPE 방지
+        if (result.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id);
+        }
+
+        return result.get();
     }
 
     @Override

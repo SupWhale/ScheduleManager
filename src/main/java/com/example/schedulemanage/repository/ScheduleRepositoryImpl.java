@@ -2,6 +2,7 @@ package com.example.schedulemanage.repository;
 
 import com.example.schedulemanage.dto.ScheduleResponseDto;
 import com.example.schedulemanage.entity.Schedule;
+import com.example.schedulemanage.entity.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -96,6 +97,32 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
                     rs.getString("schedule_content"),
                     rs.getString("schedule_cr_date"),
                     rs.getString("schedule_up_date")
+            );
+        };
+    }
+
+    @Override
+    public Optional<Schedule> findScheduleById(Long id) {
+        List<Schedule> result = jdbcTemplate.query("select" +
+                "       id" +
+                "     , userId" +
+                "     , schedule_name" +
+                "     , schedule_content" +
+                "     , schedule_st_date" +
+                "     , schedule_ed_date" +
+                "     , DATA_FORMAT(schedule_cr_date, \"%Y-%m-%d\")" +
+                "     , DATA_FORMAT(schedule_up_date, \"%Y-%m-%d\")" +
+                "from schedule; where id = ?", scheduleRowMapper2(), id);
+
+        return result.stream().findAny();
+    }
+    private RowMapper<User> scheduleRowMapper3() {
+        return (rs, rowNum) -> {
+            return new User(
+                    rs.getLong("userId"),
+                    rs.getString("email"),
+                    rs.getString("user_cr_date"),
+                    rs.getString("user_up_date")
             );
         };
     }

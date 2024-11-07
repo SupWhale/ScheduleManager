@@ -7,6 +7,7 @@ public class ScheduleRequestDto {
 
     private Long id;
     private String userId;
+    private String userNm;
     private String schedule_name;
     private String schedule_content;
     private String schedule_pw;

@@ -3,6 +3,7 @@ package com.example.schedulemanage.controller;
 
 import com.example.schedulemanage.dto.ScheduleRequestDto;
 import com.example.schedulemanage.dto.ScheduleResponseDto;
+import com.example.schedulemanage.entity.User;
 import com.example.schedulemanage.service.ScheduleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +44,10 @@ public class ScheduleController {
         return new ResponseEntity<>(scheduleService.findScheduleById(id), HttpStatus.OK);
     }
 
+    @GetMapping("/user/{userid}")
+    public ResponseEntity<User> findUserById(@PathVariable Long userid) {
+        return new ResponseEntity<>(scheduleService.findUserById(userid), HttpStatus.OK);
+    }
 
     @PatchMapping("/{id}")
     public ResponseEntity<ScheduleResponseDto> updatedSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto requestDto) {
