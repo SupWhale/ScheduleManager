@@ -1,6 +1,8 @@
 일정 관리 ERD 다이어그램
 
 ERD 다이어그램
+![image](https://github.com/user-attachments/assets/6af14762-329c-43cd-a68a-ccb39f5f7c06)
+
 
 API 명세서
 
